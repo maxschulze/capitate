@@ -27,7 +27,6 @@ namespace :thin do
           start_options = "-C #{thin_config_file}"
           stop_options = "-C #{thin_config_file}"
 
-        puts "port = #{port}\n\n\n"
           processes << { :port => port, :start_options => start_options, :stop_options => stop_options, :name => thin_bin_path, :pid_path => pid_path }
         end
 
