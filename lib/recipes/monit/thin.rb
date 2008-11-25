@@ -6,7 +6,7 @@ namespace :thin do
     Create monit configuration for thin.
     "Source":#{link_to_source(__FILE__)}
     DESC
-    task :setup do
+    task :setup, :roles => :app do
 
         # Settings
         fetch(:thin_servers)
@@ -24,8 +24,8 @@ namespace :thin do
 
           pid_path = "#{thin_pid_dir}/thin.#{port}.pid"
 
-          start_options = "-C #{thin_config_file}"
-          stop_options = "-C #{thin_config_file}"
+          start_options = " -o #{port} -C #{thin_config_file}"
+          stop_options = " -o #{port} -C #{thin_config_file}"
 
           processes << { :port => port, :start_options => start_options, :stop_options => stop_options, :name => thin_bin_path, :pid_path => pid_path }
         end
@@ -37,25 +37,24 @@ namespace :thin do
       end
 
       desc "Restart thin (for application)"
-      task :restart do
+      task :restart, :roles => :app  do
         fetch_or_default(:monit_bin_path, "monit")
-        fetch_or_default(:thin_application, Proc.new { "thin_#{fetch(:application)}" })
+        fetch_or_default(:thin_application, Proc.new { "#{fetch(:application)}" })
         sudo "#{monit_bin_path} -g #{thin_application} restart all"
       end
 
       desc "Start thin (for application)"
-      task :start do
+      task :start, :roles => :app  do
         fetch_or_default(:monit_bin_path, "monit")
-        fetch_or_default(:thin_application, Proc.new { "thin_#{fetch(:application)}" })
+        fetch_or_default(:thin_application, Proc.new { "#{fetch(:application)}" })
         sudo "#{monit_bin_path} -g #{thin_application} start all" 
       end
 
       desc "Stop thin (for application)"
-      task :stop do
+      task :stop, :roles => :app  do
         fetch_or_default(:monit_bin_path, "monit")
-        fetch_or_default(:thin_application, Proc.new { "thin_#{fetch(:application)}" })
+        fetch_or_default(:thin_application, Proc.new { "#{fetch(:application)}" })
         sudo "#{monit_bin_path} -g #{thin_application} stop all" 
       end
-
   end 
 end
