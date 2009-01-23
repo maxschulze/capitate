@@ -1,0 +1,46 @@
+<VirtualHost *>
+    ServerName <%= domain %>
+    <%= server_alias %>
+    DocumentRoot <%= public_path %>
+
+  <Directory <%= public_path %>>
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride All
+    Order allow,deny
+    allow from all
+  </Directory>
+
+  RewriteEngine On
+
+  # Check for maintenance file and redirect all requests
+  RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
+  RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+  RewriteRule ^.*$ /system/maintenance.html [L]
+
+  # Rewrite index to check for static
+  RewriteRule ^/$ /index.html [QSA]
+
+  # Rewrite to check for Rails cached page
+  RewriteRule ^([^.]+)$ $1.html [QSA]
+
+  # Redirect all non-static requests to cluster
+  RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
+  RewriteRule ^/(.*)$ balancer://<%= cluster_name %>%{REQUEST_URI} [P,QSA,L]
+
+  ProxyPassReverse / balancer://<%= cluster_name %>
+  ProxyPreserveHost on
+
+  #we need this as on Ubuntu by default Proxy is not allowed
+  <Proxy *>
+      Order allow,deny
+      Allow from all
+  </Proxy>
+
+  # Proxy balancer section (create one for each ruby app cluster)
+  <Proxy balancer://<%= cluster_name %>>
+  <% mongrel_instances.each do |mongrel_instance| %>
+      BalancerMember http://<%= mongrel_instance %>
+  <% end %>
+  </Proxy>
+
+</VirtualHost>

@@ -1,0 +1,10 @@
+<%= rails_env %>:
+  delivery_method: :smtp
+  smtp_settings:
+    address: <%= mailserver_address %>
+    port: <%= mailserver_port %>
+    domain: <%= mail_domain %>
+    authentication: <%= mailserver_authentication %>
+    user_name: <%= mailserver_username %>
+    password: <%= mailserver_password %>
+    tls: <%= mailserver_use_tls %>
