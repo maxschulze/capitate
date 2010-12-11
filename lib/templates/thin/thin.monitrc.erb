@@ -1,0 +1,13 @@
+<% processes.each do |process| %>
+  
+check process <%= thin_application %>_<%= process[:port] %> with pidfile <%= process[:pid_path] %>
+   group <%= application %>
+   start program = "<%= process[:name] %> start <%= process[:start_options] %>"
+   stop program = "<%= process[:name] %> stop <%= process[:stop_options] %>"
+   if totalmem > <%=thin_monit_mem%> Mb for 4 cycles then  restart       # eating up memory?
+   if cpu is greater than 50% for 2 cycles then alert
+   if cpu is greater than 80% for 3 cycles then  restart                # hung process?
+   if loadavg(5min) greater than 10 for 8 cycles then  restart          # bad, bad, bad
+   if 10 restarts within 20 cycles then  timeout                        # something is wrong, call the sys-admin
+   if failed url http://127.0.0.1:<%=process[:port] %>/heartbeat content == OK for 3 cycles then restart # check for response
+<% end %>

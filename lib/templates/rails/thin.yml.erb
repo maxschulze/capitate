@@ -1,0 +1,14 @@
+--- 
+pid: <%=thin_pid%>
+log: <%=thin_log%>
+max_conns: <%=thin_max_conns %>
+timeout: <%=thin_timeout %>
+port: <%=thin_port%>
+environment: <%=thin_environment%>
+max_persistent_conns: <%=thin_max_persistent_conns %>
+chdir: <%=thin_directory%>
+servers: <%=thin_servers%>
+daemonize: <%=thin_daemonize%>
+address: <%=thin_address%>
+require: []
+<% thin_options.each do |k, v| %><%= "#{k}: #{v}\n" %><% end %>
