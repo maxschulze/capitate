@@ -16,6 +16,7 @@ lib/capitate/cap_ext/variables.rb
 lib/capitate/plugins/base.rb
 lib/capitate/plugins/build.rb
 lib/capitate/plugins/gem.rb
+lib/capitate/plugins/rake.rb
 lib/capitate/plugins/prompt.rb
 lib/capitate/plugins/script.rb
 lib/capitate/plugins/templates.rb
@@ -26,6 +27,7 @@ lib/capitate/task_node.rb
 lib/capitate/version.rb
 lib/deployment/centos-5.1-64-web/install.rb
 lib/recipes/active_record.rb
+lib/recipes/apache.rb
 lib/recipes/backgroundrb.rb
 lib/recipes/centos/backgroundjob.rb
 lib/recipes/centos/backgroundrb.rb
@@ -66,9 +68,11 @@ lib/recipes/monit/sshd.rb
 lib/recipes/mysql.rb
 lib/recipes/nginx.rb
 lib/recipes/rails.rb
+lib/recipes/redmine.rb
 lib/recipes/sphinx.rb
 lib/recipes/sshd.rb
 lib/recipes/syslogd.rb
+lib/templates/apache/vhost.mongrel_cluster.conf.erb
 lib/templates/backgroundjob/backgroundjob.initd.centos.erb
 lib/templates/backgroundjob/backgroundjob.monitrc.erb
 lib/templates/backgroundrb/backgroundrb.initd.centos.erb
@@ -98,6 +102,7 @@ lib/templates/nginx/nginx.monitrc.erb
 lib/templates/nginx/nginx_vhost.conf.erb
 lib/templates/nginx/nginx_vhost_generic.conf.erb
 lib/templates/rails/database.yml.erb
+lib/templates/redmine/email.yml.erb
 lib/templates/ruby/fix_openssl.sh
 lib/templates/sphinx/sphinx.conf.erb
 lib/templates/sphinx/sphinx.monitrc.erb

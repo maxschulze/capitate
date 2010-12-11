@@ -10,7 +10,7 @@ $:.unshift File.dirname(__FILE__)
 
 module Capitate # :nodoc:
  module Plugins # :nodoc:
- end  
+ end
 end
 
 require 'capitate/plugins/base'
@@ -21,6 +21,7 @@ require 'capitate/plugins/script'
 require 'capitate/plugins/prompt'
 require 'capitate/plugins/templates'
 require 'capitate/plugins/yum'
+require 'capitate/plugins/rake'
 
 # Extensions + Patches
 require "capitate/cap_ext/connections"
@@ -29,8 +30,8 @@ require "capitate/cap_ext/run_via"
 require "capitate/cap_ext/docs"
 require "capitate/cap_ext/namespace"
 require "capitate/cap_ext/task_definition"
-        
-class Capistrano::Configuration   
+
+class Capistrano::Configuration
   include Capitate::CapExt::Variables
   include Capitate::CapExt::RunVia
   include Capitate::CapExt::Connections
